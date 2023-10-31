@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args){
         Random r = new Random();
         GestorTrafico puente = new GestorTrafico();
-        int cantAutos = 40;
+        int cantAutos = 20;
         int cantN = 0;
         int cantS = 0;
         Auto[] autos = new Auto[cantAutos];

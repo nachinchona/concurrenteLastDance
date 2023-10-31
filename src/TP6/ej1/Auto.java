@@ -15,16 +15,16 @@ public class Auto extends Thread{
     
     public void run(){
         if (paso) {
-            puente.entrarNorte();
+            puente.entrarNorte(getName());
         }else{
-            puente.entrarSur();
+            puente.entrarSur(getName());
         }
         
         try {
-            Thread.sleep(500);
+            Thread.sleep(1500);
         } catch (InterruptedException ex) {
         }
-        puente.salir();
+        puente.salir(getName());
         
     }
 }
