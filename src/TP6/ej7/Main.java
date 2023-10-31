@@ -10,8 +10,8 @@ public class Main {
         Auto[] colAutos = new Auto[cantAutos];
         Control control = new Control(fer);
         control.start();
-        for (int i = 0; i < 28; i++) {
-            if (i < 6) {
+        for (int i = 0; i < Math.max(cantPasajeros, cantAutos); i++) {
+            if (i < Math.min(cantPasajeros, cantAutos)) {
                 colAutos[i] = new Auto(Integer.toString(i), fer);
                 colAutos[i].start();
             }
