@@ -20,25 +20,19 @@ public class Caja {
 
     public void retirarCaja() throws InterruptedException {
         brazo.acquire();
-        mutex2.acquire();
         hayCaja = false;
         System.out.println("Brazo quitó la caja. Peso caja: " + pesoActual);
-        mutex2.release();
-        brazo.release();
     }
 
     public void reponerCaja() throws InterruptedException {
-        brazo.acquire();
-        mutex2.acquire();
         pesoActual = 0;
         hayCaja = true;
-        System.out.println("Brazo repuso la caja.");
+        System.out.println("Brazo repuso la caja. Peso caja: " + pesoActual);
         empaquetadora.release();
-        mutex2.release();
     }
 
     public void avisarBrazo() {
-        System.out.println("Brazo fue avisado para retirar la caja.");
+        System.out.println("Brazo fue avisado por Empaquetadora "+Thread.currentThread().getName()+" para retirar la caja.");
         brazo.release();
     }
 
@@ -56,7 +50,7 @@ public class Caja {
 
     public void esperarAviso() throws InterruptedException {
         this.empaquetadora.acquire();
-        System.out.println("Empaquetadora recibió el aviso CAJA REPUESTA");
+        System.out.println("Empaquetadora "+Thread.currentThread().getName()+" recibió el aviso CAJA REPUESTA");
     }
 
     public void avisarEmpaquetadora() {

@@ -21,7 +21,7 @@ public class Mostrador {
         pasteles.acquire();
         mutex.acquire();
         Pastel aux = buffer.remove();
-        System.out.println("Empaq "+Thread.currentThread().getName()+" agarró pastel de peso "+aux.getPeso());
+        System.out.println("Empaquetadora "+Thread.currentThread().getName()+" agarró pastel de peso "+aux.getPeso());
         mutex.release();
         return aux;
     }

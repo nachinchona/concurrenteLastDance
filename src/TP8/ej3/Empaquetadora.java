@@ -23,7 +23,6 @@ public class Empaquetadora extends Thread {
                     caja.avisarBrazo();
                     caja.esperarAviso();
                     caja.soltarPastel(peso);
-                    caja.liberarMutex();
                 }
                 Thread.sleep(200);
             } catch (InterruptedException ex) {
