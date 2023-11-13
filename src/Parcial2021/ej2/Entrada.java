@@ -13,55 +13,12 @@ public class Entrada {
     private Condition esperaPareja1 = lock.newCondition();
     private Condition esperaPareja2 = lock.newCondition();
     private Condition control = lock.newCondition();
-    private boolean esperaPareja1V = false;
-    private boolean esperaPareja2V = false;
     private String p1 = null;
     private String p2 = null;
     private int cantFila1 = 0;
     private int cantFila2 = 0;
     private int posActual = 0;
     private int parejas = 0;
-
-    public void entrar(boolean fila, int pos) throws InterruptedException {
-        lock.lock();
-        try {
-            if (fila) {
-                while (pos != posActual) {
-                    System.out.println(Thread.currentThread().getName() + " en pos " + pos + " y fila " + (fila ? "1" : "2") + " espera a llegar a la entrada. POS ACTUAL: " + posActual);
-                    fila1.await();
-                }
-                p1 = Thread.currentThread().getName() + " F1--Pos: " + pos;
-                System.out.println(p1 + " llego a la entrada");
-                if (p2 == null) {
-                    System.out.println(Thread.currentThread().getName() + " espera una pareja");
-                    esperaPareja2.await();
-                }
-                esperaPareja1.signal();
-            } else {
-                while (pos != posActual) {
-                    System.out.println(Thread.currentThread().getName() + " en pos " + pos + " y fila " + (fila ? "1" : "2") + " espera a llegar a la entrada. POS ACTUAL: " + posActual);
-                    fila2.await();
-                }
-                p2 = Thread.currentThread().getName() + " F2--Pos: " + pos;
-                System.out.println(p2 + " llego a la entrada");
-                if (p1 == null) {
-                    System.out.println(Thread.currentThread().getName() + " espera una pareja");
-                    esperaPareja1.await();
-                }
-                esperaPareja2.signal();
-            }
-            if (p1 != null || p2 != null) {
-                System.out.println(p1 + " y " + p2 + " entraron a bailar");
-                System.out.println("Parejas reiniciadas");
-                posActual++;
-                System.out.println("-----------------------AUMENTA POSICION ACTUAL: " + posActual + " ------------------------------");
-            }
-            p1 = null;
-            p2 = null;
-        } finally {
-            lock.unlock();
-        }
-    }
 
     public void entrarFila1(int pos) throws InterruptedException {
         lock.lock();
@@ -74,10 +31,8 @@ public class Entrada {
             System.out.println(p1 + " llego a la entrada");
             if (p2 == null) {
                 System.out.println(Thread.currentThread().getName() + " espera una pareja en fila 1");
-                this.esperaPareja1V = true;
                 esperaPareja1.await();
             }
-            this.esperaPareja1V = false;
             parejas++;
             control.signal();
             esperaPareja2.signal();
@@ -97,10 +52,8 @@ public class Entrada {
             System.out.println(p2 + " llego a la entrada");
             if (p1 == null) {
                 System.out.println(Thread.currentThread().getName() + " espera una pareja en fila 2");
-                this.esperaPareja2V = true;
                 esperaPareja2.await();
             }
-            this.esperaPareja2V = false;
             parejas++;
             control.signal();
             esperaPareja1.signal();
